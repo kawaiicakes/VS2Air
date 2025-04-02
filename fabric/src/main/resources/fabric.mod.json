@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "vs2air",
+  "version": "${version}",
+  "name": "VS2 Air Blocks",
+  "description": "Space-filling blocks with different properties. Intended for use with Valkyrien Skies.",
+  "authors": [
+    "kawaiicakes"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "MIT",
+  "icon": "assets/vs2air/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.kawaiicakes.vs2air.fabric.VS2AirFabric"
+    ],
+    "client": [
+      "io.github.kawaiicakes.vs2air.fabric.client.VS2AirFabricClient"
+    ]
+  },
+  "mixins": [
+    "vs2air.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.12",
+    "minecraft": "~1.19.2",
+    "java": ">=17",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

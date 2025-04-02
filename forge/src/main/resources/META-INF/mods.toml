@@ -1,0 +1,26 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+#issueTrackerURL = ""
+license = "MIT"
+
+[[mods]]
+modId = "vs2air"
+version = "${version}"
+displayName = "VS2 Air Blocks"
+authors = "kawaiicakes"
+description = '''Space-filling blocks with different properties. Intended for use with Valkyrien Skies.'''
+#logoFile = ""
+
+[[dependencies.vs2air]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.vs2air]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.2,)"
+ordering = "NONE"
+side = "BOTH"
