@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -24,6 +25,14 @@ public abstract class VS2AirBlock extends Block {
 
     public VS2AirBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public boolean canBeReplaced(BlockState blockState, Fluid fluid) {
+        if (blockState.getBlock() instanceof VS2AirBlock)
+            return false;
+
+        return super.canBeReplaced(blockState, fluid);
     }
 
     @Override
