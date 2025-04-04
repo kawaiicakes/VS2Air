@@ -10,5 +10,11 @@
     "friction": 0.0,
     "mass": 0.1,
     "priority": 420
+  },
+  {
+    "block": "vs2air:ship",
+    "friction": 0.0,
+    "mass": 0.1,
+    "priority": 420
   }
 ]

@@ -2,6 +2,7 @@ package io.github.kawaiicakes.vs2air.forge;
 
 import io.github.kawaiicakes.vs2air.VS2Air;
 import io.github.kawaiicakes.vs2air.block.ImmortalAirBlock;
+import io.github.kawaiicakes.vs2air.block.ShipAirBlock;
 import io.github.kawaiicakes.vs2air.block.StandardAirBlock;
 import io.github.kawaiicakes.vs2air.block.VS2AirBlock;
 import net.minecraft.world.item.*;
@@ -43,6 +44,16 @@ public final class VS2AirForge {
     public static final RegistryObject<Item> STANDARD_AIR_ITEM = ITEMS.register(
             "standard",
             () -> new BlockItem(STANDARD_AIR_BLOCK.get(), new Item.Properties().tab(FORGE_AIR_TAB).rarity(Rarity.EPIC))
+    );
+
+    public static final RegistryObject<Block> SHIP_AIR_BLOCK = BLOCKS.register(
+            "ship",
+            ShipAirBlock::new
+    );
+
+    public static final RegistryObject<Item> SHIP_AIR_ITEM = ITEMS.register(
+            "ship",
+            () -> new BlockItem(SHIP_AIR_BLOCK.get(), new Item.Properties().tab(FORGE_AIR_TAB).rarity(Rarity.EPIC))
     );
 
     public VS2AirForge() {
