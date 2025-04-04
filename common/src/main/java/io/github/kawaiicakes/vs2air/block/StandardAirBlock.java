@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
@@ -24,17 +24,6 @@ public class StandardAirBlock extends VS2AirBlock {
     public StandardAirBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(RANDOMLY_TICKS, false));
-    }
-
-    // FIXME: Fix flooding mechanic
-    @Override
-    public boolean canBeReplaced(BlockState blockState, BlockPlaceContext blockPlaceContext) {
-        return super.canBeReplaced(blockState, blockPlaceContext);
-    }
-
-    @Override
-    public boolean canBeReplaced(BlockState blockState, Fluid fluid) {
-        return super.canBeReplaced(blockState, fluid);
     }
 
     @Override
@@ -59,11 +48,17 @@ public class StandardAirBlock extends VS2AirBlock {
     @Override
     public void randomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
         int adjacent = 0;
+        FluidState fluidDownwards = Fluids.EMPTY.defaultFluidState();
 
         for (Direction direction : Direction.values()) {
             BlockState neighbourAt = serverLevel.getBlockState(blockPos.relative(direction));
+            FluidState fluidAt = serverLevel.getFluidState(blockPos.relative(direction));
 
-            if (neighbourAt.isAir()) adjacent++;
+            if (direction.equals(Direction.DOWN)) fluidDownwards = fluidAt;
+
+            if (!neighbourAt.isAir() && fluidAt.isEmpty()) continue;
+
+            adjacent++;
         }
 
         if (adjacent == 0) {
@@ -71,8 +66,16 @@ public class StandardAirBlock extends VS2AirBlock {
             return;
         }
 
-        if (randomSource.nextInt(adjacent) > 0) {
-            serverLevel.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 2);
+        final int random = randomSource.nextInt(adjacent);
+
+        if (random > 0) {
+            BlockState stateForPlacement = fluidDownwards.isEmpty()
+                    ? Blocks.AIR.defaultBlockState()
+                    : randomSource.nextInt((int)(400.0F / adjacent) + 1) == 0
+                            ? getSourceFluidState(fluidDownwards).createLegacyBlock()
+                            : Blocks.AIR.defaultBlockState();
+
+            serverLevel.setBlock(blockPos, stateForPlacement, 2);
             return;
         }
 
@@ -83,19 +86,17 @@ public class StandardAirBlock extends VS2AirBlock {
     public void tick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
         for (Direction direction : Direction.values()) {
             BlockState neighbourAt = serverLevel.getBlockState(blockPos.relative(direction));
+            FluidState fluidState = serverLevel.getFluidState(blockPos.relative(direction));
 
-            if (!direction.equals(Direction.DOWN)) {
-                FluidState fluidState = serverLevel.getFluidState(blockPos.relative(direction));
-
-                if (!fluidState.is(Fluids.EMPTY)) {
-                    serverLevel.setBlock(blockPos, fluidState.createLegacyBlock(), 3);
-                    break;
-                }
+            if (neighbourAt.isAir() && !blockState.getValue(RANDOMLY_TICKS)) {
+                serverLevel.setBlock(blockPos, blockState.setValue(RANDOMLY_TICKS, true), 18);
             }
 
-            if (!neighbourAt.isAir()) continue;
+            if (direction.equals(Direction.DOWN)) continue;
 
-            serverLevel.setBlock(blockPos, blockState.setValue(RANDOMLY_TICKS, true), 18);
+            if (fluidState.isEmpty()) continue;
+
+            serverLevel.setBlock(blockPos, getSourceFluidState(fluidState).createLegacyBlock(), 3);
             break;
         }
     }
@@ -109,5 +110,11 @@ public class StandardAirBlock extends VS2AirBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(RANDOMLY_TICKS);
+    }
+
+    public static FluidState getSourceFluidState(FluidState fluidAt) {
+        return fluidAt.getType() instanceof FlowingFluid flowingFluid
+                ? flowingFluid.getSource().defaultFluidState()
+                : fluidAt;
     }
 }

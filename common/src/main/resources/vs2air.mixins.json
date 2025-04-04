@@ -7,6 +7,7 @@
     "ClientLevelMixin"
   ],
   "mixins": [
+    "FlowingFluidMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -29,10 +29,7 @@ public abstract class VS2AirBlock extends Block {
 
     @Override
     public boolean canBeReplaced(BlockState blockState, Fluid fluid) {
-        if (blockState.getBlock() instanceof VS2AirBlock)
-            return false;
-
-        return super.canBeReplaced(blockState, fluid);
+        return false;
     }
 
     @Override

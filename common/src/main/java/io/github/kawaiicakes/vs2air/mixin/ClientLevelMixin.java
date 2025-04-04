@@ -10,6 +10,9 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.Set;
 
+/**
+ * Permits rendering of this mod's air blocks just like barrier blocks
+ */
 @Mixin(ClientLevel.class)
 public abstract class ClientLevelMixin {
     @WrapOperation(
