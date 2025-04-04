@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -20,7 +21,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 @SuppressWarnings("deprecation")
 public abstract class VS2AirBlock extends Block {
     public static Properties defaultProperties() {
-        return BlockBehaviour.Properties.of(Material.AIR).strength(-1.0F, 3600000.8F).noLootTable().noOcclusion().noCollission();
+        Material vs2Air = new Material.Builder(MaterialColor.NONE).build();
+
+        return BlockBehaviour.Properties.of(vs2Air)
+                .strength(-1.0F, 3600000.8F)
+                .noLootTable()
+                .noOcclusion()
+                .noCollission();
     }
 
     public VS2AirBlock(Properties properties) {
