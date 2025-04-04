@@ -20,7 +20,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 @SuppressWarnings("deprecation")
 public abstract class VS2AirBlock extends Block {
     public static Properties defaultProperties() {
-        return BlockBehaviour.Properties.of(Material.AIR).strength(-1.0F, 3600000.8F).noLootTable().noOcclusion();
+        return BlockBehaviour.Properties.of(Material.AIR).strength(-1.0F, 3600000.8F).noLootTable().noOcclusion().noCollission();
     }
 
     public VS2AirBlock(Properties properties) {
