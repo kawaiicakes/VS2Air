@@ -38,6 +38,18 @@ dependencies {
 
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
     implementation(include("io.github.llamalad7:mixinextras-forge:0.4.1"))
+
+    // Valkyrien Skies 2
+    modApi("org.valkyrienskies:valkyrienskies-119-forge:$vs2_version") { transitive = false }
+
+    // VS Core
+    implementation("org.valkyrienskies.core:api:$vs_core_version")
+    implementation("org.valkyrienskies.core:api-game:$vs_core_version")
+    implementation("org.valkyrienskies.core:util:$vs_core_version")
+    implementation("org.valkyrienskies.core:impl:$vs_core_version")
+
+    // VS needs Kotlin For Forge, even though we don't
+    implementation "thedarkcolour:kotlinforforge:$forge_kotlin_version"
 }
 
 processResources {
