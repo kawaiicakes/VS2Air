@@ -2,7 +2,7 @@ package io.github.kawaiicakes.vs2air.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import io.github.kawaiicakes.vs2air.block.VS2AirBlock;
+import io.github.kawaiicakes.vs2air.VS2AirBlock;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.BlockItem;
 import org.spongepowered.asm.mixin.Mixin;
